@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const AddBlog = ({ setBlogs }) => {
+const AddBlog = ({ blogs, setBlogs }) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
@@ -13,27 +13,32 @@ const AddBlog = ({ setBlogs }) => {
       content,
     };
 
-    setBlogs(prev => [newBlog, ...prev]);
+    setBlogs([newBlog, ...blogs]);
     setTitle("");
     setContent("");
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        placeholder="Title"
-        required
-      />
-      <textarea
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-        placeholder="Content"
-        required
-      />
-      <button type="submit">Publish</button>
-    </form>
+    <div style={{ marginBottom: "20px" }}>
+      <h2>Add Blog</h2>
+      <form onSubmit={handleSubmit}>
+        <input
+          required
+          placeholder="Title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+        <br /><br />
+        <textarea
+          required
+          placeholder="Content"
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+        />
+        <br /><br />
+        <button type="submit">Publish</button>
+      </form>
+    </div>
   );
 };
 
