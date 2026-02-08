@@ -1,34 +1,32 @@
-import React, { useState } from 'react';
-// 1. REMOVE the Navbar import below
-// import Navbar from '../components/Navbar'; 
-import AddBlog from '../components/AddBlog';
-import BlogCard from '../components/Blogcard';
+import { useEffect, useState } from "react";
+import AddBlog from "../components/AddBlog";
+import BlogCard from "../components/BlogCard";
 
-const Home = () => {
-  const [blogs, setBlogs] = useState([
-    { title: "First Blog", author: "Pavan", content: "This is a sample blog post." }
-  ]);
+export default function Home() {
+  const [blogs, setBlogs] = useState([]);
 
-  const handleAddBlog = (newBlog) => {
-    setBlogs([newBlog, ...blogs]);
+  // Load blogs on page load
+  useEffect(() => {
+    const savedBlogs = JSON.parse(localStorage.getItem("blogs")) || [];
+    setBlogs(savedBlogs);
+  }, []);
+
+  // Add new blog
+  const addBlog = (blog) => {
+    const updatedBlogs = [blog, ...blogs];
+    setBlogs(updatedBlogs);
+    localStorage.setItem("blogs", JSON.stringify(updatedBlogs));
   };
 
   return (
-    <div className="bg-slate-50 min-h-screen">
-      {/* 2. REMOVE the <Navbar /> tag from here */}
-      
-      <div className="max-w-4xl mx-auto p-6 space-y-8">
-        <AddBlog onPublish={handleAddBlog} />
+    <div className="p-6">
+      <AddBlog onAdd={addBlog} />
 
-        <div className="space-y-4">
-          <h2 className="text-xl font-bold text-gray-700">Recent Posts</h2>
-          {blogs.map((blog, index) => (
-            <BlogCard key={index} blog={blog} />
-          ))}
-        </div>
+      <div className="mt-6 grid gap-4">
+        {blogs.map((blog) => (
+          <BlogCard key={blog.id} blog={blog} />
+        ))}
       </div>
     </div>
   );
-};
-
-export default Home;
+}
