@@ -1,11 +1,7 @@
-const Navbar = () => {
+export default function Navbar() {
   return (
-    <nav className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-4 shadow-lg">
-      <h1 className="text-2xl font-bold tracking-wide">
-        ✨ BlogSphere
-      </h1>
-    </nav>
+    <div className="bg-black text-white p-4 text-center text-xl">
+      Blog App
+    </div>
   );
-};
-
-export default Navbar;
+}
