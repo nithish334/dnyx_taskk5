@@ -1,13 +1,10 @@
-// src/components/AddBlog.js
 import { useState } from "react";
 
-export default function AddBlog({ onAdd }) {
+export default function AddBlog({ setBlogs }) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
+  const handleSubmit = () => {
     if (!title || !content) {
       alert("Please fill all fields");
       return;
@@ -19,31 +16,32 @@ export default function AddBlog({ onAdd }) {
       content,
     };
 
-    onAdd(newBlog);
+    setBlogs(prev => [newBlog, ...prev]);
+
     setTitle("");
     setContent("");
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white p-4 rounded shadow">
+    <div className="p-4 bg-white shadow rounded">
       <input
-        type="text"
-        placeholder="Blog title"
+        className="border p-2 w-full mb-2"
+        placeholder="Blog Title"
         value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        className="w-full mb-2 p-2 border"
+        onChange={e => setTitle(e.target.value)}
       />
-
       <textarea
-        placeholder="Blog content"
+        className="border p-2 w-full mb-2"
+        placeholder="Blog Content"
         value={content}
-        onChange={(e) => setContent(e.target.value)}
-        className="w-full mb-2 p-2 border"
+        onChange={e => setContent(e.target.value)}
       />
-
-      <button className="bg-blue-600 text-white px-4 py-2 rounded">
+      <button
+        onClick={handleSubmit}
+        className="bg-blue-500 text-white px-4 py-2 rounded"
+      >
         Publish
       </button>
-    </form>
+    </div>
   );
 }
