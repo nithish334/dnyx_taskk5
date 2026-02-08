@@ -1,14 +1,11 @@
 import { useState } from "react";
 
-export default function AddBlog({ setBlogs }) {
+const AddBlog = ({ setBlogs }) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
-  const handleSubmit = () => {
-    if (!title || !content) {
-      alert("Please fill all fields");
-      return;
-    }
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
     const newBlog = {
       id: Date.now(),
@@ -17,31 +14,27 @@ export default function AddBlog({ setBlogs }) {
     };
 
     setBlogs(prev => [newBlog, ...prev]);
-
     setTitle("");
     setContent("");
   };
 
   return (
-    <div className="p-4 bg-white shadow rounded">
+    <form onSubmit={handleSubmit}>
       <input
-        className="border p-2 w-full mb-2"
-        placeholder="Blog Title"
         value={title}
-        onChange={e => setTitle(e.target.value)}
+        onChange={(e) => setTitle(e.target.value)}
+        placeholder="Title"
+        required
       />
       <textarea
-        className="border p-2 w-full mb-2"
-        placeholder="Blog Content"
         value={content}
-        onChange={e => setContent(e.target.value)}
+        onChange={(e) => setContent(e.target.value)}
+        placeholder="Content"
+        required
       />
-      <button
-        onClick={handleSubmit}
-        className="bg-blue-500 text-white px-4 py-2 rounded"
-      >
-        Publish
-      </button>
-    </div>
+      <button type="submit">Publish</button>
+    </form>
   );
-}
+};
+
+export default AddBlog;
